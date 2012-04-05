@@ -7,6 +7,7 @@ module ActiveAdmin
   # The instance of the current page is available in PageController and views
   # by calling the #active_admin_config method.
   #
+
   class Page
 
     # The namespace this config belongs to
@@ -55,6 +56,8 @@ module ActiveAdmin
     def belongs_to?
       false
     end
+
+
 
     def add_default_action_items
     end

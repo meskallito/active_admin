@@ -11,11 +11,14 @@ module ActiveAdmin
         options[:html][:method] = :get
         options[:html][:class] ||= "filter_form"
         options[:as] = :q
-        clear_link = link_to(I18n.t('active_admin.clear_filters'), "#", :class => "clear_filters_btn")
+        clear_link = link_to(I18n.t('active_admin.clear_filters'), options[:url], :class => "clear_filters_btn")
         form_for search, options do |f|
           filters.each do |filter_options|
             filter_options = filter_options.dup
             attribute = filter_options.delete(:attribute)
+            if filter_options[:if]
+              attribute = nil unless instance_exec(&filter_options[:if])
+            end
             f.filter attribute, filter_options
           end
 

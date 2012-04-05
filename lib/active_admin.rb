@@ -22,6 +22,7 @@ module ActiveAdmin
   autoload :BaseController,           'active_admin/base_controller'
   autoload :ControllerAction,         'active_admin/controller_action'
   autoload :CSVBuilder,               'active_admin/csv_builder'
+  autoload :Config,                   'active_admin/config'
   autoload :Dashboards,               'active_admin/dashboards'
   autoload :Deprecation,              'active_admin/deprecation'
   autoload :Devise,                   'active_admin/devise'
@@ -36,6 +37,7 @@ module ActiveAdmin
   autoload :Namespace,                'active_admin/namespace'
   autoload :Page,                     'active_admin/page'
   autoload :PagePresenter,            'active_admin/page_presenter'
+
   autoload :PageController,           'active_admin/page_controller'
   autoload :PageDSL,                  'active_admin/page_dsl'
   autoload :Reloader,                 'active_admin/reloader'

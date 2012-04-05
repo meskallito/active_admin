@@ -40,7 +40,7 @@ module ActiveAdmin
       @name = name.to_s.underscore.to_sym
       @resources = ResourceCollection.new
       register_module unless root?
-      generate_dashboard_controller
+      generate_dashboard_controller if dashboard
     end
 
     # Register a resource into this namespace. The preffered method to access this is to 
@@ -55,7 +55,7 @@ module ActiveAdmin
       reset_menu!
 
       # Ensure that the dashboard is generated
-      generate_dashboard_controller
+      generate_dashboard_controller if dashboard
 
       # Dispatch a registration event
       ActiveAdmin::Event.dispatch ActiveAdmin::Resource::RegisterEvent, config
@@ -71,7 +71,6 @@ module ActiveAdmin
       register_page_controller(config)
       parse_page_registration_block(config, &block) if block_given?
       reset_menu!
-
       config
     end
 
@@ -115,7 +114,7 @@ module ActiveAdmin
     end
 
     def menu
-      @menu ||= MenuBuilder.build_for_namespace(self)
+      @menu ||= MenuBuilder.build_for_namespace(self,dashboard)
     end
 
     def reset_menu!
@@ -176,13 +175,14 @@ module ActiveAdmin
       @page_dsl ||= PageDSL.new
     end
 
+
     def parse_page_registration_block(config, &block)
       page_dsl.run_registration_block(config, &block)
     end
 
     # Creates a dashboard controller for this config
     def generate_dashboard_controller
-      eval "class ::#{dashboard_controller_name} < ActiveAdmin::Dashboards::DashboardController; end"
+        eval "class ::#{dashboard_controller_name} < ActiveAdmin::Dashboards::DashboardController; end"
     end
 
   end

@@ -8,6 +8,7 @@ require 'active_admin/resource_controller/scoping'
 require 'active_admin/resource_controller/resource_class_methods'
 
 module ActiveAdmin
+
   # All Resources Controller inherits from this controller.
   # It implements actions and helpers for resources.
   class ResourceController < BaseController
@@ -23,6 +24,7 @@ module ActiveAdmin
     include Callbacks
     include Collection
     include Filters
+
     include Scoping
     extend  ResourceClassMethods
 

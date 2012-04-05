@@ -5,6 +5,7 @@ shared_examples_for "ActiveAdmin::Config" do
     end
   end
 
+
   describe "page_presenters" do
     it "should return an empty hash by default" do
       config.page_presenters.should == {}
@@ -41,7 +42,6 @@ shared_examples_for "ActiveAdmin::Config" do
 		config.menu :label => "Hello"
         config.menu_item.label.should == "Hello"
       end
-
     end
 
     describe "#include_in_menu?" do
@@ -57,6 +57,7 @@ shared_examples_for "ActiveAdmin::Config" do
 
     describe "parent menu item name" do
 
+
       it "should be nil when not set" do
         config.parent_menu_item_name.should == nil
       end
@@ -67,6 +68,5 @@ shared_examples_for "ActiveAdmin::Config" do
       end
 
     end
-
   end
 end

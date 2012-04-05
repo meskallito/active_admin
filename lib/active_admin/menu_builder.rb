@@ -2,13 +2,14 @@ module ActiveAdmin
 
   class MenuBuilder
 
-    def self.build_for_namespace(namespace)
-      new(namespace).menu
+    def self.build_for_namespace(namespace, dashboard=true)
+      new(namespace,dashboard).menu
     end
 
     attr_reader :menu
 
-    def initialize(namespace)
+    def initialize(namespace,dashboard=true)
+      @dashboard=dashboard
       @namespace = namespace
     end
 
@@ -25,7 +26,7 @@ module ActiveAdmin
     def build_menu
       menu = Menu.new
 
-      add_dashboard_to_menu(menu)
+      add_dashboard_to_menu(menu) if @dashboard
 
       namespace.resources.each do |resource|
         register_with_menu(menu, resource) if resource.include_in_menu?

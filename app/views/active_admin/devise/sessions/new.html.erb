@@ -1,15 +1,17 @@
-<div id="login">
-  <h2><%= title "#{active_admin_application.site_title} Login" %></h2>
 
+<div id="login">
+  <h2>Авторизація</h2>
+   <div style="text-align: center;"> <%=image_tag("dia-logo.png") %>  </div>
   <% scope = Devise::Mapping.find_scope!(resource_name) %>
+
   <%= active_admin_form_for(resource, :as => resource_name, :url => send(:"#{scope}_session_path"), :html => { :id => "session_new" }) do |f| 
     f.inputs do
       Devise.authentication_keys.each { |key| f.input key, :input_html => {:autofocus => true}}
       f.input :password
-      f.input :remember_me, :as => :boolean, :if =>  false  #devise_mapping.rememberable? }
+      f.input :remember_me, :label => "Запам'ятати мене", :as => :boolean, :if =>  false  #devise_mapping.rememberable? }
     end
     f.buttons do
-      f.commit_button "Login"
+      f.commit_button "Увійти"
     end
   end
   %>

@@ -44,6 +44,7 @@ module ActiveAdmin
       config.scope(*args, &block)
     end
 
+
     # Configure the index page for the resource
     def index(options = {}, &block)
       options[:as] ||= :table

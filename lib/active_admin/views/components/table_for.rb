@@ -61,23 +61,26 @@ module ActiveAdmin
 
       def build_table_header(col)
         if sortable? && col.sortable?
-          build_sortable_header_for(col.title, col.sort_key)
+          build_sortable_header_for(col.title, col.sort_key, get_class(col))
         else
-          th(col.title, :class => (col.data.to_s.downcase.underscore if col.data.is_a?(Symbol)))
+          th(col.title, :class => get_class(col)  )
         end
       end
 
-      def build_sortable_header_for(title, sort_key)
+      def build_sortable_header_for(title, sort_key,  html_class=false)
         classes = Arbre::HTML::ClassList.new(["sortable"])
         if current_sort[0] == sort_key
           classes << "sorted-#{current_sort[1]}"
         end
-        
-        header_class = title.downcase.underscore
-        
-        classes << header_class
+        #if html_class
+        #  classes<<html_class
+        #else
+          classes<<title.downcase.underscore
+        #end
+        #header_class = title.downcase.underscore
+        #classes << header_class
 
-        th :class => classes do
+        th :class => classes, :id=>"h_#{sort_key}" do
           link_to(title, params.merge(:order => "#{sort_key}_#{order_for_sort_key(sort_key)}").except(:page))
         end
       end
@@ -89,8 +92,18 @@ module ActiveAdmin
         end
       end
 
+      def get_class(col,type=:header)
+        prefix = case type
+          when :header
+            'h'
+          when :column
+            'c'
+          end
+        (col.data.is_a?(Symbol))?(col.data.to_s.downcase.underscore):((col.class_base)?"#{prefix}_#{col.class_base}" : false  )
+      end
+
       def build_table_cell(col, item)
-        td(:class => (col.data.to_s.downcase if col.data.is_a?(Symbol))) do
+        td(:class =>  get_class(col, :column) ) do
           rvalue = call_method_or_proc_on(item, col.data, :exec => false)
           if col.data.is_a?(Symbol)
             rvalue = pretty_format(rvalue)
@@ -128,9 +141,10 @@ module ActiveAdmin
 
       class Column
 
-        attr_accessor :title, :data
+        attr_accessor :title, :data, :options, :class_base
 
         def initialize(*args, &block)
+          @class_base= args[2][:class_base]
           @options = default_options.merge(args.last.is_a?(::Hash) ? args.pop : {})
           @title = pretty_title args[0]
           @data  = args[1] || args[0]
@@ -178,7 +192,6 @@ module ActiveAdmin
             if @options[:i18n] && @options[:i18n].respond_to?(:human_attribute_name) && human_name = @options[:i18n].human_attribute_name(raw)
               raw = human_name
             end
-
             raw.to_s.titleize
           else
             raw

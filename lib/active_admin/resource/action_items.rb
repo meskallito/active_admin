@@ -2,7 +2,7 @@ require 'active_admin/helpers/optional_display'
 
 module ActiveAdmin
 
-  class Resource
+  class Resource < Config
     module ActionItems
 
       # Add the default action items to a resource when it's
@@ -53,24 +53,35 @@ module ActiveAdmin
       def add_default_action_items
         # New Link on all actions except :new and :show
         add_action_item :except => [:new, :show] do
-          if controller.action_methods.include?('new')
-            link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_label), new_resource_path)
+
+          if controller.action_methods.include?('new')  #or (controller.current_admin_user.admin?) #DIA-CHANGE
+            if controller.actions_blocking[:list].include?(:new)   
+                link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_label), new_resource_path, :id => "act_create") if instance_exec(&controller.actions_blocking[:conditional_block])
+            else
+                link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_label), new_resource_path, :id => "act_create")
+            end  
           end
         end
 
         # Edit link on show
         add_action_item :only => :show do
           if controller.action_methods.include?('edit')
-            link_to(I18n.t('active_admin.edit_model', :model => active_admin_config.resource_label), edit_resource_path(resource))
+            if controller.actions_blocking[:list].include?(:edit)
+              link_to(I18n.t('active_admin.edit_model', :model => active_admin_config.resource_label), edit_resource_path(resource), :id => "act_edit") if instance_exec(&controller.actions_blocking[:conditional_block])
+            else
+              link_to(I18n.t('active_admin.edit_model', :model => active_admin_config.resource_label), edit_resource_path(resource), :id => "act_edit")
+            end 
           end
         end
 
         # Destroy link on show
         add_action_item :only => :show do
           if controller.action_methods.include?("destroy")
-            link_to(I18n.t('active_admin.delete_model', :model => active_admin_config.resource_label),
-              resource_path(resource),
-              :method => :delete, :confirm => I18n.t('active_admin.delete_confirmation'))
+            if controller.actions_blocking[:list].include?(:destroy)
+              link_to(I18n.t('active_admin.delete_model', :model => active_admin_config.resource_label), resource_path(resource), :method => :delete, :confirm => I18n.t('active_admin.delete_confirmation'), :id => "act_delete") if instance_exec(&controller.actions_blocking[:conditional_block])
+            else
+              link_to(I18n.t('active_admin.delete_model', :model => active_admin_config.resource_label),resource_path(resource), :method => :delete, :confirm => I18n.t('active_admin.delete_confirmation'), :id => "act_delete")
+            end
           end
         end
       end

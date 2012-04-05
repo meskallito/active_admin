@@ -17,12 +17,14 @@ module ActiveAdmin
       # Define any necessary dashboard routes
       router.instance_exec(@application.namespaces.values) do |namespaces|
         namespaces.each do |namespace|
-          if namespace.root?
+          if namespace.root? and !(namespace.dashboard.is_a? Symbol)
             match '/' => 'dashboard#index', :as => 'dashboard'
           else
             name = namespace.name
             match name.to_s => "#{name}/dashboard#index", :as => "#{name.to_s}_dashboard"
           end
+
+
         end
       end
 

@@ -33,7 +33,9 @@ module ActiveAdmin
       end
     end
 
+
     describe "resource label" do
+
       it "should return a pretty name" do
         config.resource_label.should == "Category"
       end

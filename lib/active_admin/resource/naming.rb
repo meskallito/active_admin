@@ -2,6 +2,13 @@ module ActiveAdmin
   class Resource
 
     module Naming
+      # Returns the name to call this resource such as "Bank Account"
+      def resource_name
+        @resource_name ||= @options[:as]
+        @resource_name ||= singular_human_name
+        @resource_name ||= resource.name.gsub('::',' ')
+      end
+
 
       # Returns a name used to uniquely identify this resource
       # this should be an instance of ActiveAdmin:Resource::Name, which responds to
@@ -31,6 +38,7 @@ module ActiveAdmin
         else
           resource_name.human(:count => 3, :default => resource_label.pluralize).titleize
         end
+
       end
     end
 
@@ -75,6 +83,7 @@ module ActiveAdmin
           super(name)
         end
       end
+
 
     end
 

@@ -20,6 +20,7 @@ Feature: Registering Pages
     And I should see the Active Admin layout
     And I should see the content "I love chocolate."
 
+
   Scenario: Registering an empty page
     Given a configuration of:
     """

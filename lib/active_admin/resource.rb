@@ -1,8 +1,10 @@
 require 'active_admin/resource/action_items'
+
 require 'active_admin/resource/controllers'
 require 'active_admin/resource/menu'
 require 'active_admin/resource/page_presenters'
 require 'active_admin/resource/pagination'
+
 require 'active_admin/resource/naming'
 require 'active_admin/resource/scopes'
 require 'active_admin/resource/sidebars'
@@ -18,16 +20,18 @@ module ActiveAdmin
   # The instance of the current resource is available in ResourceController and views
   # by calling the #active_admin_config method.
   #
-  class Resource
+  class Resource < Config
 
     # Event dispatched when a new resource is registered
     RegisterEvent = 'active_admin.resource.register'.freeze
+
 
     # The namespace this config belongs to
     attr_reader :namespace
 
     # The name of the resource class
     attr_reader :resource_class_name
+
 
     # An array of member actions defined for this resource
     attr_reader :member_actions
@@ -73,6 +77,7 @@ module ActiveAdmin
       ActiveSupport::Dependencies.constantize(resource_class_name)
     end
 
+
     def resource_table_name
       resource_class.quoted_table_name
     end
@@ -80,6 +85,7 @@ module ActiveAdmin
     def resource_quoted_column_name(column)
       resource_class.connection.quote_column_name(column)
     end
+
 
     # Returns the named route for an instance of this resource
     def route_instance_path
@@ -155,6 +161,7 @@ module ActiveAdmin
     def default_csv_builder
       @default_csv_builder ||= CSVBuilder.default_for_resource(resource_class)
     end
-    
+
   end # class Resource
+
 end # module ActiveAdmin

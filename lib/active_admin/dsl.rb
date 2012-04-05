@@ -49,6 +49,7 @@ module ActiveAdmin
       @config.controller
     end
 
+
     # Add a new action item to the resource
     #
     # @param [Hash] options valid keys include:
@@ -97,5 +98,6 @@ module ActiveAdmin
     def sidebar(name, options = {}, &block)
       config.sidebar_sections << ActiveAdmin::SidebarSection.new(name, options, &block)
     end
+
   end
 end

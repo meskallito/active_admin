@@ -20,8 +20,10 @@ describe ActiveAdmin::Namespace, "registering a resource" do
       defined?(Admin::DashboardController).should be_true
     end
     it "should create a menu item" do
+
       namespace.menu["Categories"].should be_an_instance_of(ActiveAdmin::MenuItem)
       namespace.menu["Categories"].url.should == :admin_categories_path
+
     end
   end # context "with no configuration"
 
@@ -42,14 +44,18 @@ describe ActiveAdmin::Namespace, "registering a resource" do
     end
 
     it "should store the namespaced registered configuration" do
+
       namespace.resources.keys.should include('Mock::Resource')
+
     end
     it "should create a new controller in the default namespace" do
       defined?(Admin::MockResourcesController).should be_true
     end
     it "should create a menu item" do
+
       namespace.menu["Mock Resources"].should be_an_instance_of(ActiveAdmin::MenuItem)
     end
+
 
     it "should use the resource as the model in the controller" do
       Admin::MockResourcesController.resource_class.should == Mock::Resource
@@ -111,6 +117,7 @@ describe ActiveAdmin::Namespace, "registering a resource" do
         namespace.register Category do
           menu false
         end
+
       end
       it "should not create a menu item" do
         namespace.menu["Categories"].should be_nil
@@ -122,6 +129,7 @@ describe ActiveAdmin::Namespace, "registering a resource" do
         namespace.register Category do
           menu :priority => 2
         end
+
       end
       it "should have a custom priority of 2" do
         namespace.menu["Categories"].priority.should == 2
@@ -133,6 +141,7 @@ describe ActiveAdmin::Namespace, "registering a resource" do
         namespace.register Category do
           menu :if => proc { false }
         end
+
       end
       it "should have a proc returning false" do
         namespace.menu["Categories"].display_if_block.should be_instance_of(Proc)

@@ -93,6 +93,7 @@ describe ActiveAdmin::Application do
     end
   end
 
+
   describe "adding an inheritable setting" do
 
     it "should add a setting to Application and Namespace" do

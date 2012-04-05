@@ -15,6 +15,7 @@ module ActiveAdmin
       reloader_class.new(rails_app, active_admin_app, rails_version)
     end
 
+
     class AbstractReloader
 
       attr_reader :active_admin_app, :rails_app, :rails_version

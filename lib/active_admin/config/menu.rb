@@ -1,5 +1,5 @@
 module ActiveAdmin
-  class Resource
+  class Config
     module Menu
 
       # Set the menu options. To not add this resource to the menu, just

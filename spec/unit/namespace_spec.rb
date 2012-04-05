@@ -24,6 +24,7 @@ describe ActiveAdmin::Namespace do
     end
   end # context "when new"
 
+
   describe "settings" do
     let(:namespace){ ActiveAdmin::Namespace.new(application, :admin) }
 
@@ -38,5 +39,6 @@ describe ActiveAdmin::Namespace do
       namespace.site_title.should_not == application.site_title
     end
   end
+
 
 end

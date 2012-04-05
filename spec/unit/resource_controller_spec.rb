@@ -3,6 +3,7 @@ require File.expand_path('base_controller_shared_examples', File.dirname(__FILE_
 
 describe ActiveAdmin::ResourceController do
 
+
   let(:controller) { ActiveAdmin::ResourceController.new }
 
   it_should_behave_like "BaseController"
@@ -52,6 +53,7 @@ describe ActiveAdmin::ResourceController do
       controller.send(:current_active_admin_user).should == user
     end
   end
+
 
   describe "callbacks" do
     let(:application){ ::ActiveAdmin::Application.new }
